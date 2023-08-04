@@ -310,3 +310,17 @@ código necessário para as operações de acesso a dados.
 
 Essa abordagem de configuração automática dos repositórios é uma das principais vantagens do Spring Data JPA, pois reduz significativamente 
 o esforço de desenvolvimento ao trabalhar com persistência de dados em aplicações Spring.
+
+------------------------------------------------------------------- // -------------------------------------------------------------------
+
+O SpringJUnit4ClassRunner é uma classe fornecida pelo Spring Framework para integração do Spring com os testes unitários JUnit 4. Ele 
+permite que você aproveite a funcionalidade do Spring, como injeção de dependência e configuração do contêiner do Spring, durante a 
+execução dos testes unitários.
+
+O SpringJUnit4ClassRunner estende o BlockJUnit4ClassRunner do JUnit 4 e adiciona suporte específico para o Spring. Ao usar essa classe 
+como o @RunWith no seu teste, o Spring configura o contexto de aplicação antes da execução dos testes, permitindo que você use as 
+configurações e os beans do Spring no cenário de teste.
+
+Para utilizar o SpringJUnit4ClassRunner, você precisa adicionar a dependência adequada ao seu projeto (por exemplo, spring-test) e então 
+anotar sua classe de teste com @RunWith(SpringJUnit4ClassRunner.class).
+
