@@ -379,6 +379,47 @@ Ao marcar um método de consulta com @Modifying, o Spring Data JPA saberá que e
 operação de modificação. Com isso, o Spring Data JPA poderá tratar essa consulta de forma adequada, garantindo que as transações sejam 
 gerenciadas corretamente e que as modificações no banco de dados sejam efetivadas.
 
+1. `clearAutomatically`:
+- Essa propriedade é um booleano que indica se o contexto persistente (EntityManager) será limpo automaticamente após a execução da 
+  operação de modificação.
+  
+- Quando definida como `true`, o contexto persistente será limpo, o que significa que quaisquer alterações pendentes no contexto serão 
+  removidas após a conclusão da operação de modificação.
+  
+- Por padrão, essa propriedade é `false`, o que significa que as alterações pendentes no contexto persistente permanecerão após a operação 
+  de modificação. Definir essa propriedade como `true` pode ser útil em algumas situações para evitar problemas de inconsistência.
+
+2. `flushAutomatically`:
+- Essa propriedade é um booleano que indica se o contexto persistente será sincronizado automaticamente com o banco de dados antes da 
+  execução da operação de modificação.
+  
+- Quando definida como `true`, qualquer alteração pendente no contexto persistente será sincronizada com o banco de dados antes da execução 
+  da operação de modificação.
+  
+- Por padrão, essa propriedade é `false`, o que significa que as alterações pendentes no contexto persistente não são sincronizadas 
+  automaticamente com o banco de dados antes da operação de modificação. Definir essa propriedade como `true` pode ser útil em algumas 
+  situações quando você precisa garantir que as alterações no contexto persistente sejam refletidas no banco de dados antes da operação 
+  de modificação.
+
+3. `beforeExecution`: 
+- Essa propriedade permite definir uma query JPQL ou SQL para ser executada antes da operação de modificação definida no método.
+- Isso permite que você execute uma query adicional antes da execução da query de modificação. A query definida aqui é uma operação de leitura e não de modificação, portanto, não é afetada pelas propriedades `clearAutomatically` e `flushAutomatically`.
+- A query definida nessa propriedade deve ser uma operação de leitura e não deve conter operações de modificação.
+
+4. `afterExecution`: 
+- Essa propriedade permite definir uma query JPQL ou SQL para ser executada após a operação de modificação definida no método.
+
+- Isso permite que você execute uma query adicional após a execução da query de modificação. A query definida aqui é uma operação de 
+  leitura e não de modificação, portanto, não é afetada pelas propriedades `clearAutomatically` e `flushAutomatically`.
+  
+- A query definida nessa propriedade deve ser uma operação de leitura e não deve conter operações de modificação.
+
+É importante lembrar que a anotação `@Modifying` deve ser usada somente em métodos de um repositório Spring Data JPA que realizam 
+operações de modificação no banco de dados, como operações de atualização (UPDATE) ou exclusão (DELETE). Essa anotação informa ao Spring 
+Data JPA que a operação é uma operação de modificação e não de leitura, permitindo que o Spring Data JPA gerencie a transação e o contexto 
+persistente adequadamente.
+
+---------- // ----------
 
 @Transactional:
 A anotação @Transactional é usada para demarcar um método (ou uma classe) como transacional no contexto do Spring. Quando um método é 
@@ -387,3 +428,52 @@ uma transação e que a transação seja devidamente comitada ou revertida, depe
 
 Essa anotação é especialmente útil para controlar transações em serviços e métodos de acesso a dados, garantindo a consistência dos dados 
 no banco de dados.
+
+A anotação `@Transactional` possui algumas propriedades importantes que permitem personalizar o comportamento da transação. Aqui estão as 
+principais propriedades:
+
+1. `readOnly`: Essa propriedade é um booleano que define se a transação é somente leitura ou se também permite operações de escrita no 
+banco de dados. Quando `readOnly` é definido como `true`, a transação será somente leitura e quaisquer operações de escrita resultarão em 
+uma exceção. Isso é útil quando você tem métodos que não alteram os dados do banco de dados, permitindo que o Spring otimize a transação 
+para leitura.
+
+2. `timeout`: Essa propriedade permite definir um limite de tempo (em segundos) para a transação. Se a transação não for concluída dentro 
+do tempo especificado, ela será automaticamente revertida. Isso é útil para evitar bloqueios de longa duração no banco de dados.
+
+3. `isolation`: Essa propriedade permite definir o nível de isolamento da transação. O isolamento controla como as transações concorrentes 
+interagem entre si. Existem diferentes níveis de isolamento, como `READ_COMMITTED`, `READ_UNCOMMITTED`, `REPEATABLE_READ` e `SERIALIZABLE`. 
+O nível padrão é geralmente definido pelo provedor JPA ou pelo banco de dados subjacente. 
+
+  -> READ_UNCOMMITTED: Neste nível, uma transação pode ler dados modificados por outras transações que ainda não foram confirmadas (committed).
+     Isso permite a leitura de dados sujos, ou seja, dados que podem ser alterados posteriormente por outras transações antes de serem 
+     confirmados. Esse nível de isolamento não é muito utilizado em ambientes de produção devido aos problemas de consistência que podem 
+     ocorrer.
+     
+  -> READ_COMMITTED: Neste nível, uma transação só pode ler dados confirmados por outras transações.
+    Os dados modificados por outras transações que ainda não foram confirmadas não são visíveis para uma transação.
+    Isso evita a leitura suja, mas ainda pode permitir problemas de leitura não repetível e escrita fantasma.
+
+  -> REPEATABLE_READ: Neste nível, uma transação garante que, durante a execução da transação, ela sempre lê o mesmo conjunto de dados, 
+     mesmo que outros estejam alterando os dados.
+     Isso evita problemas de leitura suja e leitura não repetível, mas ainda pode permitir problemas de escrita fantasma.
+
+  -> SERIALIZABLE:Este é o nível mais alto de isolamento, garantindo que as transações sejam executadas de forma isolada e serializada.
+     Nesse nível, todas as operações de leitura e escrita são bloqueadas, evitando leitura suja, leitura não repetível e escrita fantasma.
+     No entanto, esse nível pode resultar em problemas de escalabilidade, pois pode causar bloqueios e reduzir o desempenho em sistemas 
+     com alta concorrência.
+
+4. `noRollbackFor` e `rollbackFor`: Essas propriedades permitem especificar exceções que devem ou não resultar no rollback da transação. 
+Por exemplo, ao usar `noRollbackFor = {CustomException.class}`, a transação não será revertida se uma exceção do tipo `CustomException` 
+for lançada durante a execução do método anotado. Outro exemplo, `noRollbackFor = {NullPointerException.class}`
+
+5. `propagation`: Essa propriedade define como a transação se comporta quando um método transacional chama outro método transacional. Ela 
+controla a propagação do contexto de transação entre os métodos. Algumas opções comuns são `REQUIRED`, `REQUIRES_NEW`, `SUPPORTS`, 
+`NOT_SUPPORTED`, etc.
+
+6. `rollbackForClassName` e `noRollbackForClassName`: Essas propriedades permitem especificar os nomes das classes de exceção que devem ou 
+não resultar no rollback da transação. Elas funcionam de maneira semelhante às propriedades `noRollbackFor` e `rollbackFor`, mas usam o 
+nome da classe em vez do tipo de exceção.
+
+Essas são algumas das propriedades mais importantes da anotação `@Transactional`. É importante entender bem essas propriedades para 
+configurar adequadamente o comportamento das transações em sua aplicação e garantir a consistência e a integridade dos dados no banco de 
+dados.
