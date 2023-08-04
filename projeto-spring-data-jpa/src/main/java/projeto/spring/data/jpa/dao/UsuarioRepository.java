@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import projeto.spring.data.jpa.model.UsuarioSpringData;
@@ -19,5 +20,10 @@ public interface UsuarioRepository extends CrudRepository<UsuarioSpringData, Lon
 	// Consulta personalizada utilizando dois parâmetros
 	@Query(value = "select u from UsuarioSpringData u where u.nome like %?1% and u.idade = ?2")
 	public List<UsuarioSpringData> buscarPorNomeEIdade(String nome, int idade);
+	
+	
+	// Realizando consultas por meio de parâmetro
+	@Query(value = "select u from UsuarioSpringData u where u.nome = :paramnome")
+	public UsuarioSpringData buscarPorNomeParam(@Param("paramnome") String paramnome);
 	
 }

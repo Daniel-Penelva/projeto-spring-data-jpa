@@ -157,7 +157,7 @@ public class APPSpringDataTest {
 		}
 	}
 
-	@Test
+	// @Test
 	public void testeBuscarPorNomeEIdade() {
 
 		List<UsuarioSpringData> listUsu = usuarioRepository.buscarPorNomeEIdade("Da", 18);
@@ -176,6 +176,26 @@ public class APPSpringDataTest {
 				System.out.println("Idade: " + usuarioSpringData.getIdade());
 				System.out.println("------------------------------------------------");
 			}
+		} else {
+			System.out.println("Não existe registro com o nome e idade desse usuário!");
+		}
+	}
+
+	@Test
+	public void testBuscarPorNomeParam() {
+
+		UsuarioSpringData usuario = usuarioRepository.buscarPorNomeParam("Daniel");
+
+		if (usuario != null) {
+
+			System.out.println("Dados do usuario: ");
+			System.out.println("Id: " + usuario.getId());
+			System.out.println("Nome: " + usuario.getNome());
+			System.out.println("Login: " + usuario.getLogin());
+			System.out.println("Senha: " + usuario.getSenha());
+			System.out.println("Email: " + usuario.getEmail());
+			System.out.println("Idade: " + usuario.getIdade());
+
 		} else {
 			System.out.println("Não existe registro com o nome e idade desse usuário!");
 		}
