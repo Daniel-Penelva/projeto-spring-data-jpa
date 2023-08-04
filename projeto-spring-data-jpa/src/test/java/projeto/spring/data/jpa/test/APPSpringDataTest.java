@@ -1,5 +1,6 @@
 package projeto.spring.data.jpa.test;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -18,15 +19,15 @@ public class APPSpringDataTest {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	//@Test
+	// @Test
 	public void testeInsert() {
 
 		UsuarioSpringData usuario = new UsuarioSpringData();
-		usuario.setLogin("daiane");
+		usuario.setLogin("amanda");
 		usuario.setSenha("123");
-		usuario.setNome("Daiane");
-		usuario.setEmail("daiane@gmail.com");
-		usuario.setIdade(27);
+		usuario.setNome("Amanda");
+		usuario.setEmail("amanda@gmail.com");
+		usuario.setIdade(51);
 
 		usuarioRepository.save(usuario);
 
@@ -77,16 +78,17 @@ public class APPSpringDataTest {
 	// @Test
 	public void testeUpdate() {
 
-		Optional<UsuarioSpringData> usuario = usuarioRepository.findById(10L);
+		Optional<UsuarioSpringData> usuario = usuarioRepository.findById(8L);
 
 		if (usuario.isPresent()) {
 
 			UsuarioSpringData usuAtualizar = usuario.get();
 
 			// Valor a ser modificado
-			usuAtualizar.setNome("Jair Bolsonaro");
-			usuAtualizar.setLogin("bolsonaro");
-			usuAtualizar.setEmail("bo4@gmail.com");
+			usuAtualizar.setNome("Dandara");
+			usuAtualizar.setLogin("dandara");
+			usuAtualizar.setEmail("dandara@gmail.com");
+			usuAtualizar.setIdade(15);
 
 			// Salvar no banco de dados
 			usuarioRepository.save(usuAtualizar);
@@ -104,7 +106,7 @@ public class APPSpringDataTest {
 		System.out.println("Usuário deletado com sucesso!");
 	}
 
-	//@Test
+	// @Test
 	public void testeDelete() {
 		Optional<UsuarioSpringData> usuario = usuarioRepository.findById(2L);
 
@@ -117,7 +119,7 @@ public class APPSpringDataTest {
 		}
 	}
 
-	@Test
+	// @Test
 	public void testeDeletePorId() {
 
 		Optional<UsuarioSpringData> usuario = usuarioRepository.findById(41L);
@@ -128,6 +130,54 @@ public class APPSpringDataTest {
 			System.out.println("Usuário deletado com sucesso!");
 		} else {
 			System.out.println("Usuario inexistente");
+		}
+	}
+
+	// @Test
+	public void testeBuscarPorNome() {
+
+		List<UsuarioSpringData> listUsu = usuarioRepository.buscarPorNome("Da");
+
+		if (listUsu.size() > 0) {
+
+			System.out.println("Existe " + usuarioRepository.count() + " ao todo nessa lista com esse nome");
+
+			for (UsuarioSpringData usuarioSpringData : listUsu) {
+				System.out.println("Dados do usuario: ");
+				System.out.println("Id: " + usuarioSpringData.getId());
+				System.out.println("Nome: " + usuarioSpringData.getNome());
+				System.out.println("Login: " + usuarioSpringData.getLogin());
+				System.out.println("Senha: " + usuarioSpringData.getSenha());
+				System.out.println("Email: " + usuarioSpringData.getEmail());
+				System.out.println("Idade: " + usuarioSpringData.getIdade());
+				System.out.println("------------------------------------------------");
+			}
+		} else {
+			System.out.println("Não existe registro com o nome desse usuário!");
+		}
+	}
+
+	@Test
+	public void testeBuscarPorNomeEIdade() {
+
+		List<UsuarioSpringData> listUsu = usuarioRepository.buscarPorNomeEIdade("Da", 18);
+
+		if (listUsu.size() > 0) {
+
+			System.out.println("Existe " + usuarioRepository.count() + " ao todo nessa lista com esse nome");
+
+			for (UsuarioSpringData usuarioSpringData : listUsu) {
+				System.out.println("Dados do usuario: ");
+				System.out.println("Id: " + usuarioSpringData.getId());
+				System.out.println("Nome: " + usuarioSpringData.getNome());
+				System.out.println("Login: " + usuarioSpringData.getLogin());
+				System.out.println("Senha: " + usuarioSpringData.getSenha());
+				System.out.println("Email: " + usuarioSpringData.getEmail());
+				System.out.println("Idade: " + usuarioSpringData.getIdade());
+				System.out.println("------------------------------------------------");
+			}
+		} else {
+			System.out.println("Não existe registro com o nome e idade desse usuário!");
 		}
 	}
 }
