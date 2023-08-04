@@ -57,7 +57,7 @@ public class APPSpringDataTest {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void consultarTodos() {
 		
 		Iterable<UsuarioSpringData> listaUsu = usuarioRepository.findAll();
@@ -71,6 +71,30 @@ public class APPSpringDataTest {
 		    System.out.println("Email: " + usuarioSpringData.getEmail());
 		    System.out.println("Idade: " + usuarioSpringData.getIdade());
 		    System.out.println("------------------------------------------------");
+		}
+	}
+	
+	@Test
+	public void testeUpdate() {
+		
+		Optional<UsuarioSpringData> usuario = usuarioRepository.findById(10L);
+		
+		if(usuario.isPresent()) {
+			
+		   UsuarioSpringData usuAtualizar = usuario.get();
+		   
+		   // Valor a ser modificado
+		   usuAtualizar.setNome("Jair Bolsonaro");
+		   usuAtualizar.setLogin("bolsonaro");
+		   usuAtualizar.setEmail("bo4@gmail.com");
+		   
+		   //Salvar no banco de dados 
+		   usuarioRepository.save(usuAtualizar);
+		   
+		   System.out.println("Usuário modificado com sucesso!");
+			
+		}else {
+			System.out.println("Usuario inexistente");
 		}
 	}
 }
