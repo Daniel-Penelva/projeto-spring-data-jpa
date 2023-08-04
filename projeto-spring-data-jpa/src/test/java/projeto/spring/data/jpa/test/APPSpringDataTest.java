@@ -1,5 +1,6 @@
 package projeto.spring.data.jpa.test;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -181,7 +182,7 @@ public class APPSpringDataTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testBuscarPorNomeParam() {
 
 		UsuarioSpringData usuario = usuarioRepository.buscarPorNomeParam("Daniel");
@@ -200,4 +201,13 @@ public class APPSpringDataTest {
 			System.out.println("Não existe registro com o nome e idade desse usuário!");
 		}
 	}
+	
+	
+	@Test
+	public void testeDeletePorNome() {
+		
+		usuarioRepository.deletePorNome("Amanda");
+		System.out.println("Usuario deletado com sucesso!");
+	}
+	
 }

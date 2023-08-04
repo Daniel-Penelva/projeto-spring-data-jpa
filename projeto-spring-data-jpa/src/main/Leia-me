@@ -368,3 +368,22 @@ Em resumo, a interface Iterable permite que as classes que a implementam forneç
 sequencial. Essa interface é fundamental no Java e é amplamente utilizada para fornecer suporte à iteração em coleções e estruturas de 
 dados em diversas bibliotecas e APIs do Java.
 
+------------------------------------------------------------------- // -------------------------------------------------------------------
+
+@Modifying:
+A anotação @Modifying é usada em conjunto com métodos de consulta (query methods) em repositórios do Spring Data JPA. Ela indica que o 
+método modificará os dados no banco de dados, ou seja, realizará uma operação de atualização ou exclusão (INSERT, UPDATE, DELETE). Geralmente, 
+essa anotação é usada com consultas JPQL (Java Persistence Query Language) ou consultas nativas SQL.
+
+Ao marcar um método de consulta com @Modifying, o Spring Data JPA saberá que essa consulta não é apenas uma operação de leitura, mas uma 
+operação de modificação. Com isso, o Spring Data JPA poderá tratar essa consulta de forma adequada, garantindo que as transações sejam 
+gerenciadas corretamente e que as modificações no banco de dados sejam efetivadas.
+
+
+@Transactional:
+A anotação @Transactional é usada para demarcar um método (ou uma classe) como transacional no contexto do Spring. Quando um método é 
+marcado com @Transactional, o Spring gerencia as transações automaticamente para esse método, garantindo que ele seja executado dentro de
+uma transação e que a transação seja devidamente comitada ou revertida, dependendo do resultado do método.
+
+Essa anotação é especialmente útil para controlar transações em serviços e métodos de acesso a dados, garantindo a consistência dos dados 
+no banco de dados.
