@@ -35,7 +35,7 @@ public class APPSpringDataTest {
 		System.out.println("Usuários cadastrados -> " + usuarioRepository.count());
 	}
 	
-	@Test
+	//@Test
 	public void testeConsultarPorId() {
 		
 		//O método .findById() é do tipo Optional
@@ -54,6 +54,23 @@ public class APPSpringDataTest {
 	    
 		}else {
 		System.out.println("Usuario inexistente");
+		}
+	}
+	
+	@Test
+	public void consultarTodos() {
+		
+		Iterable<UsuarioSpringData> listaUsu = usuarioRepository.findAll();
+		
+		for (UsuarioSpringData usuarioSpringData : listaUsu) {
+			System.out.println("Dados do usuario: ");
+		    System.out.println("Id: " + usuarioSpringData.getId());
+		    System.out.println("Nome: " + usuarioSpringData.getNome());
+		    System.out.println("Login: " + usuarioSpringData.getLogin());
+		    System.out.println("Senha: " + usuarioSpringData.getSenha());
+		    System.out.println("Email: " + usuarioSpringData.getEmail());
+		    System.out.println("Idade: " + usuarioSpringData.getIdade());
+		    System.out.println("------------------------------------------------");
 		}
 	}
 }

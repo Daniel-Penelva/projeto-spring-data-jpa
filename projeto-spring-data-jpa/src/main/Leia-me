@@ -357,3 +357,14 @@ orElseThrow(exceptionSupplier): Retorna o valor presente no Optional, se houver.
 O uso do Optional é uma boa prática no Java para evitar NullPointerException e tornar o código mais explícito sobre valores opcionais. 
 No contexto do Spring Data JPA, é comum retornar resultados encapsulados em um Optional para indicar que um valor pode ou não estar 
 presente, permitindo ao cliente do código de acesso a dados lidar com essa situação de forma mais adequada e segura.
+
+------------------------------------------------------------------- // -------------------------------------------------------------------
+
+A interface Iterable é uma interface fundamental do Java que faz parte do pacote java.lang e é implementada por todas as classes que 
+desejam fornecer uma iteração sobre seus elementos. Através da implementação da interface Iterable, uma classe permite que seus objetos 
+sejam iterados usando um laço "foreach" (enhanced for loop) ou qualquer outra estrutura de iteração que aceite objetos do tipo Iterable.
+
+Em resumo, a interface Iterable permite que as classes que a implementam forneçam um iterador para percorrer seus elementos de forma 
+sequencial. Essa interface é fundamental no Java e é amplamente utilizada para fornecer suporte à iteração em coleções e estruturas de 
+dados em diversas bibliotecas e APIs do Java.
+
