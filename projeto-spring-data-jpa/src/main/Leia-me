@@ -324,3 +324,36 @@ configurações e os beans do Spring no cenário de teste.
 Para utilizar o SpringJUnit4ClassRunner, você precisa adicionar a dependência adequada ao seu projeto (por exemplo, spring-test) e então 
 anotar sua classe de teste com @RunWith(SpringJUnit4ClassRunner.class).
 
+------------------------------------------------------------------- // -------------------------------------------------------------------
+
+O Optional é uma classe de contêiner que representa um valor opcional (ou seja, um valor que pode ser presente ou ausente). Ele fornece 
+métodos para verificar se um valor está presente, obter o valor presente com segurança e realizar operações condicionais de forma mais 
+legível.
+
+Embora o Optional seja uma parte fundamental do Java SE, ele é frequentemente usado em conjunto com o Spring Data JPA para representar 
+resultados de operações de acesso a dados que podem ou não retornar um valor. Por exemplo, ao recuperar uma entidade por ID de um repositório 
+Spring Data JPA, o resultado pode ser um objeto Optional, indicando que a entidade pode ou não estar presente no banco de dados.
+
+Aqui estão alguns dos principais métodos fornecidos pela classe Optional:
+
+of(value): Cria um objeto Optional contendo o valor especificado. Se o valor fornecido for null, esse método lançará uma exceção 
+NullPointerException.
+
+ofNullable(value): Cria um objeto Optional contendo o valor especificado, ou um Optional vazio se o valor fornecido for null.
+
+isPresent(): Verifica se o valor está presente no objeto Optional. Retorna true se o valor estiver presente e false caso contrário.
+
+get(): Retorna o valor presente no Optional. É importante verificar se o valor está presente usando isPresent() antes de chamar esse 
+método, pois, se o valor estiver ausente, esse método lançará uma exceção NoSuchElementException.
+
+orElse(other): Retorna o valor presente no Optional, se houver. Caso contrário, retorna o valor especificado como parâmetro.
+
+orElseGet(supplier): Retorna o valor presente no Optional, se houver. Caso contrário, retorna o resultado do fornecedor (Supplier) 
+fornecido como parâmetro. Isso permite evitar a avaliação desnecessária de um valor de fallback, caso o valor presente esteja ausente.
+
+orElseThrow(exceptionSupplier): Retorna o valor presente no Optional, se houver. Caso contrário, lança a exceção fornecida pelo fornecedor
+(Supplier) como parâmetro.
+
+O uso do Optional é uma boa prática no Java para evitar NullPointerException e tornar o código mais explícito sobre valores opcionais. 
+No contexto do Spring Data JPA, é comum retornar resultados encapsulados em um Optional para indicar que um valor pode ou não estar 
+presente, permitindo ao cliente do código de acesso a dados lidar com essa situação de forma mais adequada e segura.

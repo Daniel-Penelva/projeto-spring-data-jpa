@@ -1,5 +1,7 @@
 package projeto.spring.data.jpa.test;
 
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ public class APPSpringDataTest {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@Test
+	//@Test
 	public void testeInsert() {
 		
 		UsuarioSpringData usuario = new UsuarioSpringData();
@@ -31,5 +33,27 @@ public class APPSpringDataTest {
 		System.out.println("Usuário salvo com sucesso!");
 		
 		System.out.println("Usuários cadastrados -> " + usuarioRepository.count());
+	}
+	
+	@Test
+	public void testeConsultarPorId() {
+		
+		//O método .findById() é do tipo Optional
+		Optional<UsuarioSpringData> usuario = usuarioRepository.findById(3L);
+		
+		if(usuario.isPresent()) {
+		
+		// O método get() retorna o próprio usuário com todas as suas propriedades
+	    System.out.println("Dados do usuario: ");
+	    System.out.println("Id: " + usuario.get().getId());
+	    System.out.println("Nome: " + usuario.get().getNome());
+	    System.out.println("Login: " + usuario.get().getLogin());
+	    System.out.println("Senha: " + usuario.get().getSenha());
+	    System.out.println("Email: " + usuario.get().getEmail());
+	    System.out.println("Idade: " + usuario.get().getIdade());
+	    
+		}else {
+		System.out.println("Usuario inexistente");
+		}
 	}
 }
