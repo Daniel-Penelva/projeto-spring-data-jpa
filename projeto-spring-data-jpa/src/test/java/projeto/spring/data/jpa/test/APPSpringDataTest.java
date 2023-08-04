@@ -203,11 +203,17 @@ public class APPSpringDataTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void testeDeletePorNome() {
 		
 		usuarioRepository.deletePorNome("Amanda");
 		System.out.println("Usuario deletado com sucesso!");
+	}
+	
+	@Test
+	public void testeUpdatePorNome() {
+		usuarioRepository.updatePorNome("daniel@gmail.com", "Daniel");
+		System.out.println("Usuário alterado com sucesso!");
 	}
 	
 }
