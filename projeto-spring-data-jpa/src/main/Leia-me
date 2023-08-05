@@ -477,3 +477,61 @@ nome da classe em vez do tipo de exceção.
 Essas são algumas das propriedades mais importantes da anotação `@Transactional`. É importante entender bem essas propriedades para 
 configurar adequadamente o comportamento das transações em sua aplicação e garantir a consistência e a integridade dos dados no banco de 
 dados.
+
+------------------------------------------------------------------- // -------------------------------------------------------------------
+Anotação @Lock
+
+As anotações @Lock e LockModeType são parte do pacote javax.persistence, portanto, você precisa importar essas classes para usá-las 
+corretamente em seu código.
+
+É importante usar o bloqueio com cuidado, pois o bloqueio excessivo pode levar a problemas de desempenho e escalabilidade. A escolha entre 
+o bloqueio otimista e pessimista depende dos requisitos do seu aplicativo e das situações em que você precisa garantir a consistência dos 
+dados.
+
+A anotação @Lock é uma anotação fornecida pelo JPA (Java Persistence API) que permite especificar o bloqueio otimista ou pessimista de entidades em consultas de leitura e escrita.
+
+O bloqueio de entidades é uma técnica usada para controlar o acesso concorrente aos dados do banco de dados e evitar problemas como leituras sujas, atualizações conflitantes e condições de corrida.
+
+Existem dois tipos principais de bloqueio que podem ser especificados com a anotação @Lock:
+
+Bloqueio Otimista:
+O bloqueio otimista é uma abordagem na qual os dados não são bloqueados no nível do banco de dados, mas sim no nível da aplicação. Quando 
+um objeto é carregado da base de dados, um número de versão é associado a ele (geralmente um campo de número ou timestamp). Antes de 
+atualizar o objeto, o JPA verifica se a versão atual do objeto no banco de dados ainda é a mesma. Se a versão não corresponder, significa 
+que o objeto foi alterado por outra transação e, portanto, a operação não será permitida.
+
+Bloqueio Pessimista:
+O bloqueio pessimista é uma abordagem em que o banco de dados bloqueia explicitamente os dados enquanto a transação está em andamento. 
+Isso impede que outras transações acessem ou modifiquem os dados bloqueados até que o bloqueio seja liberado. Existem diferentes modos de 
+bloqueio pessimista, como PESSIMISTIC_READ, PESSIMISTIC_WRITE, entre outros.
+
+O `LockModeType` é uma enumeração fornecida pela JPA (Java Persistence API) que define os modos de bloqueio que podem ser usados com a 
+anotação `@Lock`. Ele permite especificar como as entidades devem ser bloqueadas quando são acessadas ou atualizadas.
+
+Aqui estão os principais modos de bloqueio disponíveis na enumeração `LockModeType`:
+
+1. `NONE`:
+   - Nenhum bloqueio é aplicado. Essa é a opção padrão, e nenhuma restrição de bloqueio é adicionada à consulta ou operação.
+
+2. `OPTIMISTIC`:
+   - Bloqueio otimista. Isso adiciona uma verificação de versão para evitar atualizações conflitantes. Se outra transação alterou a 
+     entidade desde que foi carregada pela transação atual, a atualização não será permitida.
+
+3. `OPTIMISTIC_FORCE_INCREMENT`:
+   - Bloqueio otimista com incremento forçado. É semelhante ao `OPTIMISTIC`, mas também incrementa o número de versão da entidade após a 
+     operação.
+
+4. `PESSIMISTIC_READ`:
+   - Bloqueio pessimista somente para leitura. Essa opção bloqueia a entidade em modo de somente leitura, permitindo que outras transações 
+     acessem a entidade, mas não permitindo atualizações.
+
+5. `PESSIMISTIC_WRITE`:
+   - Bloqueio pessimista para leitura e escrita. Essa opção bloqueia a entidade para leitura e escrita, impedindo que outras transações 
+     acessem ou atualizem a entidade.
+
+6. `PESSIMISTIC_FORCE_INCREMENT`:
+   - Bloqueio pessimista com incremento forçado. É semelhante ao `PESSIMISTIC_WRITE`, mas também incrementa o número de versão da entidade 
+     após a operação.
+
+Lembre-se de usar o modo de bloqueio apropriado de acordo com os requisitos do seu aplicativo e o cenário de acesso concorrente aos dados. 
+O uso correto do bloqueio pode garantir a consistência e a integridade dos dados em ambientes com várias transações simultâneas.

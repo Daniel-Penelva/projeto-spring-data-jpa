@@ -2,6 +2,9 @@ package projeto.spring.data.jpa.dao;
 
 import java.util.List;
 
+import javax.persistence.LockModeType;
+
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -25,6 +28,7 @@ public interface UsuarioRepository extends CrudRepository<UsuarioSpringData, Lon
 	
 	
 	// Realizando consultas por meio de parâmetro
+	@Lock(LockModeType.READ)
 	@Query(value = "select u from UsuarioSpringData u where u.nome = :paramnome")
 	public UsuarioSpringData buscarPorNomeParam(@Param("paramnome") String paramnome);
 	
