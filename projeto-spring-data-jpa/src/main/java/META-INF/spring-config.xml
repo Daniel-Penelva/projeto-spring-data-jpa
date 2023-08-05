@@ -36,6 +36,13 @@
 			</bean>
 		</property>
 		<property name="persistenceUnitName" value="projeto-spring-data-jpa"/>
+		
+		<!-- Adicionar a propriedade hibernate.dialect aqui -->
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            </map>
+        </property>
 	</bean>
 	
 	

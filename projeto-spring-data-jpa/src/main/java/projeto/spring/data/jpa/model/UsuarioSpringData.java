@@ -1,12 +1,19 @@
 package projeto.spring.data.jpa.model;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class UsuarioSpringData {
+public class UsuarioSpringData implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +24,11 @@ public class UsuarioSpringData {
 	private String nome;
 	private String email;
 	private int idade;
+	
+	//Um usuário pode ter um ou vários telefones
+	// O valor "usuario" é o mesmo valor definido no atributo que está na classe Telefone. 
+    @OneToMany(mappedBy = "usuario",  orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<Telefone> telefones;
 
 	public Long getId() {
 		return id;
@@ -64,5 +76,13 @@ public class UsuarioSpringData {
 
 	public void setIdade(int idade) {
 		this.idade = idade;
+	}
+	
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
+	}
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 }
